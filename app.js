@@ -5,6 +5,7 @@ import authRouter from "./routes/auth.route.js";
 import subscriptionRouter from "./routes/subscriptions.route.js";
 import connectToDb from "./database/mongodb.js";
 import errorMiddleware from "./middleware/error.middleware.js";
+import authorize from "./middleware/auth.middleware.js";
 const app = express();
 
 app.use(express.json());
@@ -26,16 +27,16 @@ app.get("/", (req, res) => {
 
 const startServer = async () => {
   try {
-    await connectToDb();
     app.listen(PORT, () => {
       console.log(`Server has started on port ${PORT}`);
     });
+    await connectToDb();
   } catch (error) {
     console.error("Failed to start server:", error.message);
     process.exit(1);
   }
 };
 
-startServer()
+startServer();
 
 export default app;
